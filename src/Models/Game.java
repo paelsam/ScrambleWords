@@ -15,14 +15,15 @@ import java.util.ArrayList;
 
 public class Game {
 
-    ArrayList<String[]> listaPalabras;
-    int numPalabra = 0;
-    String[] letras;
-    String[] palabras;
+    private ArrayList<String[]> listaPalabras;
+    private int numPalabra;
+    private String[] letras;
+    private String[] palabras;
 
     public Game() {
         letras = new String[6];
         palabras = new String[12];
+        numPalabra = 0;
     }
 
     /**
@@ -68,10 +69,8 @@ public class Game {
     /**
      * esta funcion se debe utilizar desde el controlador para cambiar de palabra
      * cuando el usuario haya llenado todas las palabras de un conjunto de letras en
-     * la
-     * GUI.Esta funcion actualiza los Arrays letras y palabras del juego.Cada vez
-     * que es
-     * llamado pasa a la siguiente palabra.
+     * la GUI.Esta funcion actualiza los Arrays letras y palabras del juego.Cada vez
+     * que es llamado pasa a la siguiente palabra.
      */
     public void cambiarPalabra() {
         if (numPalabra < 10) {
