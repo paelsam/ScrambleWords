@@ -16,18 +16,19 @@ import java.util.ArrayList;
 public class Game {
 
     private ArrayList<String[]> listaPalabras;
+    private ArrayList<String> letras;
+    private ArrayList<String> palabras;
     private int numPalabra;
-    private String[] letras;
-    private String[] palabras;
 
     public Game() {
-        letras = new String[6];
-        palabras = new String[12];
+        letras = new ArrayList<String>();
+        palabras = new ArrayList<String>();
+        listaPalabras = new ArrayList<String[]>();
         numPalabra = 0;
     }
 
     /**
-     * esta funcion lee el archivo de texto plano y guarda cada conjunto de letras y
+     * Esta funcion lee el archivo de texto plano y guarda cada conjunto de letras y
      * las palabras correspondientes en un
      * Array de tipo string para cada conjunto. en total son 10 arrays, ya que hay
      * 10 palabras. Estos 10 arrays son
@@ -42,68 +43,63 @@ public class Game {
         File archivo;
         String[] datos;
 
-        archivo = new File("src" + File.separator + "palabras.txt");
+        // Cambié la ruta en la que se guardaba el archivo txt 
+        archivo = new File("src" + File.separator + "assets" + File.separator + "palabras.txt");
         try {
             fr = new FileReader(archivo);
             br = new BufferedReader(fr);
-            listaPalabras = new ArrayList<String[]>();
             while ((linea = br.readLine()) != null) {
                 datos = linea.split(",");
-                if (datos.length > 0) {
-
+                if (datos.length > 0) 
                     listaPalabras.add(datos);
-                }
+                else
+                    continue;
             }
             br.close();
             fr.close();
-
         } catch (FileNotFoundException e) {
-            return "no se encontro ningun archivo";
+            return "No se encontró ningun archivo";
 
         } catch (IOException e) {
-            return "no se pudo leer la linea";
+            return "No se pudo leer la linea";
         }
-        return "se leyo la informacion desde archivo";
+        return "Se leyó la informacion del archivo";
     }
 
     /**
-     * esta funcion se debe utilizar desde el controlador para cambiar de palabra
+     * Esta funcion se debe utilizar desde el controlador para cambiar de palabra
      * cuando el usuario haya llenado todas las palabras de un conjunto de letras en
      * la GUI.Esta funcion actualiza los Arrays letras y palabras del juego.Cada vez
      * que es llamado pasa a la siguiente palabra.
      */
     public void cambiarPalabra() {
+        // Vaciar los ArrayList antes de añadir otro
+        letras.clear();
+        palabras.clear();
         if (numPalabra < 10) {
             String[] conjunto = listaPalabras.get(numPalabra);
-
             for (int i = 0; i < conjunto.length; i++) {
-                if (i < 6) {
-
-                    letras[i] = conjunto[i];
-                    if (i > 5) {
-                        palabras[i] = conjunto[i];
-                    }
-                }
+                if (conjunto[i].length() <= 1) 
+                    letras.add(conjunto[i]); 
+                if (conjunto[i].length() >= 3) 
+                    palabras.add(conjunto[i]);
             }
             numPalabra++;
-
         }
 
     }
 
-    public ArrayList<String[]> getListaPalabras() {
-        return listaPalabras;
-    }
+    // Obetener el ArrayList de listaPalabras es innecesario
 
     public int getNumPalabra() {
-        return numPalabra;
+        return this.numPalabra;
     }
 
-    public String[] getLetras() {
-        return letras;
+    public ArrayList<String> getLetras() {
+        return this.letras;
     }
 
-    public String[] getPalabras() {
-        return palabras;
+    public ArrayList<String> getPalabras() {
+        return this.palabras;
     }
 }
