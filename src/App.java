@@ -1,16 +1,10 @@
 import Models.Game;
+import Views.GUI;
 
 public class App {
-    public static void main(String[] args) throws Exception {
-        Game palabras = new Game();
-        palabras.leerArchivo();
-        palabras.cambiarPalabra();
-        palabras.cambiarPalabra();
-        palabras.cambiarPalabra();
-        
-        for ( String uletras : palabras.getLetras())
-            System.out.println(uletras);
-        for ( String upalabras : palabras.getPalabras() )
-            System.out.println(upalabras);
+    public static void main(String[] args) throws Exception     
+    {
+        GUI miGUI = new GUI();
+        miGUI.iniciarGUI();
     }
 }
