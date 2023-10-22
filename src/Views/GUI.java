@@ -7,11 +7,14 @@ import javax.swing.JToggleButton;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.SwingConstants;
+import javax.swing.border.EmptyBorder;
+import javax.swing.border.LineBorder;
+import javax.swing.border.TitledBorder;
 
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Dimension;
-
+import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.BorderLayout;
 
@@ -40,6 +43,7 @@ public class GUI extends JFrame {
     //Botones 
     JButton bIniciarJuego, bSiguienteJuego;
     JButton bEliminarPalabra, bValidarPalabra;
+    JToggleButton[] bLetras;
 
     //Labels
     JLabel lTituloJuego;
@@ -50,24 +54,27 @@ public class GUI extends JFrame {
     //Constructor
     public GUI() 
     {
-        setTitle("Juego de Palabras");
-        setSize(800,400);
+        setTitle("Scramble Words");
+        setSize(940,600);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setResizable(false);
-        setBackground(colorFondo);
     }
 
     // Generar Labels de las palabras
+    // Los labels deben tener un tamaño de 25
     public JLabel crearLabel(String texto, Color color) 
     {
         // Instanciando label
         JLabel nuevoLabel = new JLabel(texto);
     
-        // Añadiendo background
+        // Añadiendo background, alineación y más estilos
         nuevoLabel.setBackground(color);
         nuevoLabel.setFocusable(false);
         nuevoLabel.setHorizontalAlignment(SwingConstants.CENTER);
         nuevoLabel.setVerticalAlignment(SwingConstants.CENTER);
+        nuevoLabel.setFont(new Font("VCR OSD Mono", Font.PLAIN, 25));
+        nuevoLabel.setBorder(BorderFactory.createLineBorder(Color.red));
+        nuevoLabel.setPreferredSize(new Dimension(30, 30));
 
         return nuevoLabel;
     }
@@ -81,23 +88,46 @@ public class GUI extends JFrame {
         bEliminarPalabra = new JButton("");
         bValidarPalabra = new JButton("");
 
-        lTituloJuego = new JLabel("Juego de Palabras");
+        bLetras = new JToggleButton[6];
+        
+        for ( int i = 0;  i < bLetras.length; i++ ) {
+            bLetras[i] = new JToggleButton("");
+            bLetras[i].setBackground(colorTres);
+            bLetras[i].setPreferredSize(new Dimension(50,50));
+        }
+        
+
+        // Instanciando labels
+        lTituloJuego = new JLabel("Scramble Words");
         lRonda = new JLabel("Ronda: ");
         lNumRonda = new JLabel();
-        lPalabra = new JLabel("PRUEBA");
+        lPalabra = new JLabel("AMARTE");
+                
+        //! La fuente se encuentra en la carpeta de assets
+        lTituloJuego.setFont(new Font("VCR OSD Mono", Font.PLAIN, 30));
+        lPalabra.setFont(new Font("VCR OSD Mono", Font.PLAIN, 35));
 
         //Asignar el tamaño de los labels
-        lTituloJuego.setPreferredSize(new Dimension(90,80));
         lRonda.setPreferredSize(new Dimension(70, 80));
         lNumRonda.setPreferredSize(new Dimension(70,80));
-        lPalabra.setPreferredSize(new Dimension(70, 80));
 
         lTituloJuego.setHorizontalAlignment(SwingConstants.CENTER);
         lTituloJuego.setVerticalAlignment(SwingConstants.CENTER);
         lPalabra.setHorizontalAlignment(SwingConstants.CENTER);
         lPalabra.setVerticalAlignment(SwingConstants.CENTER);
 
-        //(Fonts)
+        // Añadiendo tamaño a los botones
+        bIniciarJuego.setPreferredSize(new Dimension(60,60));
+        bSiguienteJuego.setPreferredSize(new Dimension(60, 60));
+        bEliminarPalabra.setPreferredSize(new Dimension(60,60));
+        bValidarPalabra.setPreferredSize(new Dimension(60, 60));
+
+        // Añadiendo fondo a los botones (Se deben cambiar Leo)
+        bIniciarJuego.setBackground(colorCinco);
+        bSiguienteJuego.setBackground(colorCinco);
+        bEliminarPalabra.setBackground(colorCinco);
+        bValidarPalabra.setBackground(colorCinco);
+
         
         //Añadiendo el color de letra a los labels        
         lTituloJuego.setForeground(colorTres);
@@ -105,20 +135,56 @@ public class GUI extends JFrame {
         lNumRonda.setForeground(colorTres);
         lPalabra.setForeground(colorSeis);
 
+        // Definiendo páneles y añadiendo márgenes
+        pNorte = new JPanel(new BorderLayout(10, 10));
+        pNorte.setBorder(new EmptyBorder(10, 10, 10, 10));
 
-        pNorte = new JPanel(new BorderLayout());
-        pPalabras = new JPanel(new BorderLayout());
+        // Paneles que guardan la longitud de letras
+        pPalabras = new JPanel(new FlowLayout(FlowLayout.LEFT, 20, 20));
+        pLongTres = new JPanel(new FlowLayout()); pLongCuatro = new JPanel(new FlowLayout());
+        pLongCinco = new JPanel(new FlowLayout()); pLongSeis = new JPanel(new FlowLayout());
+
+        pLongTres.setBackground(colorTres);
+        pLongTres.setPreferredSize(new Dimension(150, 300));
+        pLongTres.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(colorBorde, 3), "3 Letras", TitledBorder.CENTER, TitledBorder.CENTER));
+        // Ejemplos (Borrarlos después)
+        pLongTres.add(crearLabel("A", Color.BLACK)); pLongTres.add(crearLabel("B", Color.BLACK)); 
+        pLongTres.add(crearLabel("C", Color.BLACK));
+
+        pLongCuatro.setBackground(colorCuatro);
+        pLongCuatro.setPreferredSize(new Dimension(200, 300));
+        pLongCuatro.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(colorBorde, 3), "4 Letras", TitledBorder.CENTER, TitledBorder.CENTER));
+        // Ejemplos (Borrarlos después)
+        pLongCuatro.add(crearLabel("A", Color.BLACK)); pLongCuatro.add(crearLabel("B", Color.BLACK)); 
+        pLongCuatro.add(crearLabel("C", Color.BLACK)); pLongCuatro.add(crearLabel("D", Color.BLACK));        
+        
+        pLongCinco.setBackground(colorCinco);
+        pLongCinco.setPreferredSize(new Dimension(210, 300));
+        pLongCinco.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(colorBorde, 3), "5 Letras", TitledBorder.CENTER, TitledBorder.CENTER));
+        // Ejemplos (Borrarlos después)
+        pLongCinco.add(crearLabel("A", Color.BLACK)); pLongCinco.add(crearLabel("B", Color.BLACK)); 
+        pLongCinco.add(crearLabel("C", Color.BLACK)); pLongCinco.add(crearLabel("D", Color.BLACK));
+        pLongCinco.add(crearLabel("E", Color.BLACK));        
+        
+        pLongSeis.setBackground(colorSeis);
+        pLongSeis.setPreferredSize(new Dimension(240, 300));
+        pLongSeis.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(colorBorde, 3), "6 Letras", TitledBorder.CENTER, TitledBorder.CENTER));
+        // Ejemplos (Borrarlos después)
+        pLongSeis.add(crearLabel("A", Color.BLACK)); pLongSeis.add(crearLabel("B", Color.BLACK)); 
+        pLongSeis.add(crearLabel("C", Color.BLACK)); pLongSeis.add(crearLabel("D", Color.BLACK));
+        pLongSeis.add(crearLabel("E", Color.BLACK)); pLongSeis.add(crearLabel("F", Color.BLACK));       
+        
+
         //(Paneles que contienen las palabras)
-        pLetras = new JPanel(new BorderLayout());
-        pSur = new JPanel(new BorderLayout());
+        pLetras = new JPanel(new FlowLayout());
+        // pLetras.setBorder(BorderFactory.createLineBorder(colorBorde, 2));
 
-        //Bordes de los paneles
-        pLetras.setBorder(BorderFactory.createBevelBorder(WIDTH,colorBorde,Color.WHITE));
-        //(BorderFactory de los paneles)
+        pSur = new JPanel(new BorderLayout(10, 10));
+        pSur.setBorder(new EmptyBorder(10, 10, 10, 10));
 
         //Color de fondo a los paneles
         pNorte.setBackground(colorFondo);
-        pPalabras.setBackground(colorFondo);
+        pPalabras.setBackground(colorBorde);
         pLetras.setBackground(colorFondo);
         pSur.setBackground(colorFondo);
 
@@ -129,19 +195,26 @@ public class GUI extends JFrame {
         // pNorte.add(lNumRonda);
         pNorte.add(bSiguienteJuego, BorderLayout.EAST);
 
-        //Añaniendo componentes en la parte inferior
-        pSur.add(bEliminarPalabra, BorderLayout.WEST);
-        pSur.add(lPalabra, BorderLayout.CENTER);
-        pSur.add(bValidarPalabra, BorderLayout.EAST);
+        // Añadiendo componentes en la parte central
+        pPalabras.add(pLongTres);
+        pPalabras.add(pLongCuatro);
+        pPalabras.add(pLongCinco);
+        pPalabras.add(pLongSeis);
 
+        //Añaniendo componentes en la parte inferior
+        pSur.add(lPalabra, BorderLayout.NORTH);
+        pSur.add(pLetras, BorderLayout.SOUTH);
+
+        pLetras.add(bEliminarPalabra);
+        for ( JToggleButton toggleButton : bLetras)
+            pLetras.add(toggleButton);
+        pLetras.add(bValidarPalabra);
 
         add(pNorte,BorderLayout.NORTH);
+        add(pPalabras, BorderLayout.CENTER);
         add(pSur,BorderLayout.SOUTH);
 
-        setBackground(colorFondo);
+        pack();
         setVisible(true);
     }
-
-    
-
 }
