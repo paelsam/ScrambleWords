@@ -8,6 +8,3 @@ a,r,i,s,t,a,arista,tira,ras,tras,arta,risa,atar,sara,sarita,asir,sita,tasa
 a,p,i,l,a,r,pilar,aliar,alar,apilar,arpa,lira,par,para,paila,pila,piar,paria
 s,a,l,t,a,r,sal,sara,saltar,ras,atlas,atar,ala,alas,atas,alar,tasa,talar,las
 o,d,i,a,r,a,arado,aro,odiar,ida,ido,ara,adia,odiara,adora,rio,radio,dio
-
-
-

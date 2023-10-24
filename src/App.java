@@ -1,4 +1,3 @@
-import Models.Game;
 import Views.GUI;
 
 public class App {

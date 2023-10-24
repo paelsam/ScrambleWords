@@ -15,16 +15,19 @@ import java.util.ArrayList;
 
 public class Game {
 
-    private ArrayList<String[]> listaPalabras;
-    private ArrayList<String> letras;
-    private ArrayList<String> palabras;
-    private int numPalabra;
+    // Lista de objetos Palabra
+    private ArrayList<Palabra> listaPalabras;
+
+    // Para añadir las palabras que se vallan encontrando
+    private ArrayList<String> palabrasEncontradas;
+
+    // Manejar las rondas
+    private int ronda;
 
     public Game() {
-        letras = new ArrayList<String>();
-        palabras = new ArrayList<String>();
-        listaPalabras = new ArrayList<String[]>();
-        numPalabra = 0;
+        listaPalabras = new ArrayList<Palabra>();
+        palabrasEncontradas = new ArrayList<>();
+        ronda = 0;
     }
 
     /**
@@ -37,69 +40,38 @@ public class Game {
      * @return un string que confirma si se pudo leer el archivo o no.
      */
     public String leerArchivo() {
-        FileReader fr;
-        String linea;
         BufferedReader br;
-        File archivo;
-        String[] datos;
+        FileReader fr; File archivo;
+        String linea; String[] datos;
 
         // Cambié la ruta en la que se guardaba el archivo txt 
         archivo = new File("src" + File.separator + "assets" + File.separator + "palabras.txt");
+
         try {
             fr = new FileReader(archivo);
             br = new BufferedReader(fr);
             while ((linea = br.readLine()) != null) {
+                Palabra nuevaPalabra = new Palabra();
                 datos = linea.split(",");
                 if (datos.length > 0) 
-                    listaPalabras.add(datos);
-                else
-                    continue;
+                    for ( String dato : datos )
+                        if (dato.length() <= 1)
+                            nuevaPalabra.addLetra(dato);
+                        else
+                            nuevaPalabra.addPalabra(dato);
+                listaPalabras.add(nuevaPalabra);
             }
             br.close();
             fr.close();
         } catch (FileNotFoundException e) {
             return "No se encontró ningun archivo";
-
         } catch (IOException e) {
             return "No se pudo leer la linea";
-        }
+        }   
         return "Se leyó la informacion del archivo";
     }
 
-    /**
-     * Esta funcion se debe utilizar desde el controlador para cambiar de palabra
-     * cuando el usuario haya llenado todas las palabras de un conjunto de letras en
-     * la GUI.Esta funcion actualiza los Arrays letras y palabras del juego.Cada vez
-     * que es llamado pasa a la siguiente palabra.
-     */
-    public void cambiarPalabra() {
-        // Vaciar los ArrayList antes de añadir otro
-        letras.clear();
-        palabras.clear();
-        if (numPalabra < 10) {
-            String[] conjunto = listaPalabras.get(numPalabra);
-            for (int i = 0; i < conjunto.length; i++) {
-                if (conjunto[i].length() <= 1) 
-                    letras.add(conjunto[i]); 
-                if (conjunto[i].length() >= 3) 
-                    palabras.add(conjunto[i]);
-            }
-            numPalabra++;
-        }
-
-    }
-
-    // Obetener el ArrayList de listaPalabras es innecesario
-
-    public int getNumPalabra() {
-        return this.numPalabra;
-    }
-
-    public ArrayList<String> getLetras() {
-        return this.letras;
-    }
-
-    public ArrayList<String> getPalabras() {
-        return this.palabras;
+    public ArrayList<Palabra> getListaPalabras() {
+        return listaPalabras;
     }
 }
