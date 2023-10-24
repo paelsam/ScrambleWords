@@ -16,7 +16,7 @@ import java.util.ArrayList;
 public class Game {
 
     // Lista de objetos Palabra
-    private ArrayList<Palabra> listaPalabras;
+    private ArrayList<Palabra> listaRondas;
 
     // Para añadir las palabras que se vallan encontrando
     private ArrayList<String> palabrasEncontradas;
@@ -25,8 +25,8 @@ public class Game {
     private int ronda;
 
     public Game() {
-        listaPalabras = new ArrayList<Palabra>();
-        palabrasEncontradas = new ArrayList<>();
+        listaRondas = new ArrayList<Palabra>();
+        palabrasEncontradas = new ArrayList<String>();
         ronda = 0;
     }
 
@@ -59,7 +59,7 @@ public class Game {
                             nuevaPalabra.addLetra(dato);
                         else
                             nuevaPalabra.addPalabra(dato);
-                listaPalabras.add(nuevaPalabra);
+                listaRondas.add(nuevaPalabra);
             }
             br.close();
             fr.close();
@@ -71,7 +71,34 @@ public class Game {
         return "Se leyó la informacion del archivo";
     }
 
-    public ArrayList<Palabra> getListaPalabras() {
-        return listaPalabras;
+    public ArrayList<Palabra> getListaRondas() {
+        return listaRondas;
+    }
+
+    public Palabra getRonda() {
+        return listaRondas.get(ronda);
+    }
+
+    public Palabra cambiarRonda() {
+        if ( ronda >= listaRondas.size() )
+            ronda = 0;
+        ronda++;
+        // Pasamos a una nueva ronda, se borran las palabras encontradas de la anterior ronda
+        palabrasEncontradas.clear();
+        return listaRondas.get(ronda);
+    }
+
+    /**
+     * Verifica si String pasado por parámetro está en la lista de palabras de 
+     * la ronda actual y en la lista de palabras encontradas. 
+     * @param palabra 
+     * @return true o false
+     */
+    public boolean verificarPalabra(String palabra) {
+        if (listaRondas.get(ronda).getPalabras().contains(palabra) && !palabrasEncontradas.contains(palabra) ) {
+            palabrasEncontradas.add(palabra);
+            return true;
+        }
+        return false; 
     }
 }

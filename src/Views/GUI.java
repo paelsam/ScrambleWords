@@ -5,6 +5,7 @@ import javax.swing.JPanel;
 import javax.swing.JLabel;
 import javax.swing.JToggleButton;
 import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
@@ -22,6 +23,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.util.ArrayList;
 
 public class GUI extends JFrame {
 
@@ -73,7 +75,7 @@ public class GUI extends JFrame {
         nuevoLabel.setHorizontalAlignment(SwingConstants.CENTER);
         nuevoLabel.setVerticalAlignment(SwingConstants.CENTER);
         nuevoLabel.setFont(new Font("VCR OSD Mono", Font.PLAIN, 25));
-        nuevoLabel.setBorder(BorderFactory.createLineBorder(Color.red));
+        nuevoLabel.setBorder(BorderFactory.createLineBorder(colorFondo));
         nuevoLabel.setPreferredSize(new Dimension(30, 30));
 
         return nuevoLabel;
@@ -83,17 +85,22 @@ public class GUI extends JFrame {
     public void iniciarGUI() 
     {
         //Instanciar Botones
-        bIniciarJuego = new JButton("");
-        bSiguienteJuego = new JButton("");
-        bEliminarPalabra = new JButton("");
+        bIniciarJuego = new JButton(new ImageIcon(getClass().getResource("/images/start.png"))); 
+        bIniciarJuego.setFocusable(false); bIniciarJuego.setBorder(BorderFactory.createLineBorder(colorTres));
+        bSiguienteJuego = new JButton(new ImageIcon(getClass().getResource("/images/next.png")));
+        bSiguienteJuego.setFocusable(false); bSiguienteJuego.setBorder(BorderFactory.createLineBorder(colorCuatro));
+        bEliminarPalabra = new JButton(new ImageIcon(getClass().getResource("/images/trash.png")));
+        bEliminarPalabra.setFocusable(false); bEliminarPalabra.setBorder(BorderFactory.createLineBorder(colorCuatro));
         bValidarPalabra = new JButton("");
 
         bLetras = new JToggleButton[6];
         
         for ( int i = 0;  i < bLetras.length; i++ ) {
             bLetras[i] = new JToggleButton("");
-            bLetras[i].setBackground(colorTres);
+            bLetras[i].setBackground(colorCuatro);
             bLetras[i].setPreferredSize(new Dimension(50,50));
+            bLetras[i].setFocusable(false);
+            bLetras[i].setFont(new Font("VCR OSD Mono", Font.PLAIN, 25));
         }
         
 
@@ -123,9 +130,9 @@ public class GUI extends JFrame {
         bValidarPalabra.setPreferredSize(new Dimension(60, 60));
 
         // Añadiendo fondo a los botones (Se deben cambiar Leo)
-        bIniciarJuego.setBackground(colorCinco);
-        bSiguienteJuego.setBackground(colorCinco);
-        bEliminarPalabra.setBackground(colorCinco);
+        bIniciarJuego.setBackground(colorFondo);
+        bSiguienteJuego.setBackground(colorFondo);
+        bEliminarPalabra.setBackground(colorSeis);
         bValidarPalabra.setBackground(colorCinco);
 
         
@@ -143,13 +150,18 @@ public class GUI extends JFrame {
         pPalabras = new JPanel(new FlowLayout(FlowLayout.LEFT, 20, 20));
         pLongTres = new JPanel(new FlowLayout()); pLongCuatro = new JPanel(new FlowLayout());
         pLongCinco = new JPanel(new FlowLayout()); pLongSeis = new JPanel(new FlowLayout());
+        pLongTres.add(crearLabel("A", Color.BLACK)); pLongTres.add(crearLabel("B", Color.BLACK)); 
+        pLongTres.add(crearLabel("C", Color.BLACK));  pLongTres.add(crearLabel("A", Color.BLACK)); pLongTres.add(crearLabel("B", Color.BLACK)); 
+        pLongTres.add(crearLabel("C", Color.BLACK)); pLongTres.add(crearLabel("A", Color.BLACK)); pLongTres.add(crearLabel("B", Color.BLACK)); 
+        pLongTres.add(crearLabel("C", Color.BLACK));
 
         pLongTres.setBackground(colorTres);
         pLongTres.setPreferredSize(new Dimension(150, 300));
         pLongTres.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(colorBorde, 3), "3 Letras", TitledBorder.CENTER, TitledBorder.CENTER));
         // Ejemplos (Borrarlos después)
         pLongTres.add(crearLabel("A", Color.BLACK)); pLongTres.add(crearLabel("B", Color.BLACK)); 
-        pLongTres.add(crearLabel("C", Color.BLACK));
+        pLongTres.add(crearLabel("C", Color.BLACK));  pLongTres.add(crearLabel("A", Color.BLACK)); pLongTres.add(crearLabel("B", Color.BLACK)); 
+        pLongTres.add(crearLabel("C", Color.BLACK)); 
 
         pLongCuatro.setBackground(colorCuatro);
         pLongCuatro.setPreferredSize(new Dimension(200, 300));
@@ -216,5 +228,12 @@ public class GUI extends JFrame {
 
         pack();
         setVisible(true);
+    }
+
+    public void addBLetras(ArrayList<String> letras) {
+        for ( int i = 0; i < bLetras.length; i++) {
+            String el = letras.get(i).toUpperCase();
+            bLetras[i].setText(el);
+        }
     }
 }
