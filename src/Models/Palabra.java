@@ -3,9 +3,9 @@ package Models;
 import java.util.ArrayList;
 
 public class Palabra {
-    
-    private ArrayList<String> letras;
-    private ArrayList<String> palabras;
+
+    private final ArrayList<String> letras;
+    private final ArrayList<String> palabras;
 
     public Palabra() {
         letras = new ArrayList<String>();
@@ -22,8 +22,8 @@ public class Palabra {
 
     public ArrayList<String> getPalabraByLength(int length) {
         ArrayList<String> resultado = new ArrayList<>();
-        for ( String palabra : palabras ) {
-            if ( palabra.length() == length ) {
+        for (String palabra : palabras) {
+            if (palabra.length() == length) {
                 resultado.add(palabra);
             }
         }
