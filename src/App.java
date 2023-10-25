@@ -6,6 +6,7 @@ public class App {
         ControllerGame miJuego = new ControllerGame();
         miJuego.inciarWindow();
         miJuego.iniciarRonda();
+        miJuego.crearMatrizPalabrasPorLongitud();
 
         // GUI miGUI = new GUI();
         // miGUI.iniciarGUI();

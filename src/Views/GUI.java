@@ -9,20 +9,16 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
-import javax.swing.border.LineBorder;
 import javax.swing.border.TitledBorder;
 
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.Dimension;
-import java.awt.FlowLayout;
-import java.awt.GridLayout;
-import java.awt.BorderLayout;
-
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.BorderLayout;
+
 import java.util.ArrayList;
 
 public class GUI extends JFrame {
@@ -36,7 +32,8 @@ public class GUI extends JFrame {
     public static Color colorBorde = new Color(21,120,140);
 
     //Páneles
-    JPanel pNorte;
+    JPanel pNorte; 
+    JPanel pTitulo;
     JPanel pPalabras;
     JPanel pLongTres, pLongCuatro, pLongCinco, pLongSeis;
     JPanel pLetras;
@@ -84,15 +81,17 @@ public class GUI extends JFrame {
 
     public void iniciarGUI() 
     {
-        //Instanciar Botones
+        //Instanciar Botones y añadiéndole íconos
         bIniciarJuego = new JButton(new ImageIcon(getClass().getResource("/images/start.png"))); 
         bIniciarJuego.setFocusable(false); bIniciarJuego.setBorder(BorderFactory.createLineBorder(colorTres));
         bSiguienteJuego = new JButton(new ImageIcon(getClass().getResource("/images/next.png")));
         bSiguienteJuego.setFocusable(false); bSiguienteJuego.setBorder(BorderFactory.createLineBorder(colorCuatro));
         bEliminarPalabra = new JButton(new ImageIcon(getClass().getResource("/images/trash.png")));
         bEliminarPalabra.setFocusable(false); bEliminarPalabra.setBorder(BorderFactory.createLineBorder(colorCuatro));
-        bValidarPalabra = new JButton("");
+        bValidarPalabra = new JButton(new ImageIcon(getClass().getResource("/images/check.png")));
+        bValidarPalabra.setFocusable(false); bValidarPalabra.setBorder(BorderFactory.createLineBorder(colorCuatro));
 
+        // Instanciando array de botones
         bLetras = new JToggleButton[6];
         
         for ( int i = 0;  i < bLetras.length; i++ ) {
@@ -105,10 +104,10 @@ public class GUI extends JFrame {
         
 
         // Instanciando labels
-        lTituloJuego = new JLabel("Scramble Words");
-        lRonda = new JLabel("Ronda: ");
-        lNumRonda = new JLabel();
-        lPalabra = new JLabel("AMARTE");
+        lTituloJuego = new JLabel("SCRAMBLE WORDS");
+        lRonda = new JLabel("RONDA: ");
+        lNumRonda = new JLabel("");
+        lPalabra = new JLabel(" ");
                 
         //! La fuente se encuentra en la carpeta de assets
         lTituloJuego.setFont(new Font("VCR OSD Mono", Font.PLAIN, 30));
@@ -133,7 +132,7 @@ public class GUI extends JFrame {
         bIniciarJuego.setBackground(colorFondo);
         bSiguienteJuego.setBackground(colorFondo);
         bEliminarPalabra.setBackground(colorSeis);
-        bValidarPalabra.setBackground(colorCinco);
+        bValidarPalabra.setBackground(colorBorde);
 
         
         //Añadiendo el color de letra a los labels        
@@ -149,42 +148,23 @@ public class GUI extends JFrame {
         // Paneles que guardan la longitud de letras
         pPalabras = new JPanel(new FlowLayout(FlowLayout.LEFT, 20, 20));
         pLongTres = new JPanel(new FlowLayout()); pLongCuatro = new JPanel(new FlowLayout());
-        pLongCinco = new JPanel(new FlowLayout()); pLongSeis = new JPanel(new FlowLayout());
-        pLongTres.add(crearLabel("A", Color.BLACK)); pLongTres.add(crearLabel("B", Color.BLACK)); 
-        pLongTres.add(crearLabel("C", Color.BLACK));  pLongTres.add(crearLabel("A", Color.BLACK)); pLongTres.add(crearLabel("B", Color.BLACK)); 
-        pLongTres.add(crearLabel("C", Color.BLACK)); pLongTres.add(crearLabel("A", Color.BLACK)); pLongTres.add(crearLabel("B", Color.BLACK)); 
-        pLongTres.add(crearLabel("C", Color.BLACK));
+        pLongCinco = new JPanel(new FlowLayout()); pLongSeis = new JPanel(new FlowLayout());    
 
         pLongTres.setBackground(colorTres);
         pLongTres.setPreferredSize(new Dimension(150, 300));
         pLongTres.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(colorBorde, 3), "3 Letras", TitledBorder.CENTER, TitledBorder.CENTER));
-        // Ejemplos (Borrarlos después)
-        pLongTres.add(crearLabel("A", Color.BLACK)); pLongTres.add(crearLabel("B", Color.BLACK)); 
-        pLongTres.add(crearLabel("C", Color.BLACK));  pLongTres.add(crearLabel("A", Color.BLACK)); pLongTres.add(crearLabel("B", Color.BLACK)); 
-        pLongTres.add(crearLabel("C", Color.BLACK)); 
 
         pLongCuatro.setBackground(colorCuatro);
-        pLongCuatro.setPreferredSize(new Dimension(200, 300));
+        pLongCuatro.setPreferredSize(new Dimension(180, 300));
         pLongCuatro.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(colorBorde, 3), "4 Letras", TitledBorder.CENTER, TitledBorder.CENTER));
-        // Ejemplos (Borrarlos después)
-        pLongCuatro.add(crearLabel("A", Color.BLACK)); pLongCuatro.add(crearLabel("B", Color.BLACK)); 
-        pLongCuatro.add(crearLabel("C", Color.BLACK)); pLongCuatro.add(crearLabel("D", Color.BLACK));        
         
         pLongCinco.setBackground(colorCinco);
         pLongCinco.setPreferredSize(new Dimension(210, 300));
-        pLongCinco.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(colorBorde, 3), "5 Letras", TitledBorder.CENTER, TitledBorder.CENTER));
-        // Ejemplos (Borrarlos después)
-        pLongCinco.add(crearLabel("A", Color.BLACK)); pLongCinco.add(crearLabel("B", Color.BLACK)); 
-        pLongCinco.add(crearLabel("C", Color.BLACK)); pLongCinco.add(crearLabel("D", Color.BLACK));
-        pLongCinco.add(crearLabel("E", Color.BLACK));        
+        pLongCinco.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(colorBorde, 3), "5 Letras", TitledBorder.CENTER, TitledBorder.CENTER));      
         
         pLongSeis.setBackground(colorSeis);
         pLongSeis.setPreferredSize(new Dimension(240, 300));
         pLongSeis.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(colorBorde, 3), "6 Letras", TitledBorder.CENTER, TitledBorder.CENTER));
-        // Ejemplos (Borrarlos después)
-        pLongSeis.add(crearLabel("A", Color.BLACK)); pLongSeis.add(crearLabel("B", Color.BLACK)); 
-        pLongSeis.add(crearLabel("C", Color.BLACK)); pLongSeis.add(crearLabel("D", Color.BLACK));
-        pLongSeis.add(crearLabel("E", Color.BLACK)); pLongSeis.add(crearLabel("F", Color.BLACK));       
         
 
         //(Paneles que contienen las palabras)
@@ -226,6 +206,12 @@ public class GUI extends JFrame {
         add(pPalabras, BorderLayout.CENTER);
         add(pSur,BorderLayout.SOUTH);
 
+        // Eventos 
+        ActionEventHandler event = new ActionEventHandler();
+        for ( JToggleButton bLetra : bLetras )
+            bLetra.addActionListener(event);
+        bEliminarPalabra.addActionListener(event);
+
         pack();
         setVisible(true);
     }
@@ -235,5 +221,51 @@ public class GUI extends JFrame {
             String el = letras.get(i).toUpperCase();
             bLetras[i].setText(el);
         }
+    }
+
+    public void eliminarLetraLPalabra(String letra) {
+        int indice = lPalabra.getText().indexOf(letra);
+        String nuevaPalabra = lPalabra.getText().substring(0, indice) + lPalabra.getText().substring(indice + 1);
+        lPalabra.setText( nuevaPalabra );
+    }
+
+    public void addLPalabras(String palabra) {
+        lPalabra.setText(lPalabra.getText() + palabra);
+    }
+
+    public void addPanelTres(JLabel label) {
+        pLongTres.add(label);
+    }
+
+    public void addPanelCuatro(JLabel label) {
+        pLongCuatro.add(label);
+    }
+
+    public void addPanelCinco(JLabel label) {
+        pLongCinco.add(label);
+    }
+
+    public void addPanelSeis(JLabel label) {
+        pLongSeis.add(label);
+    }
+
+    class ActionEventHandler implements ActionListener {
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            for ( JToggleButton bLetra : bLetras ) {
+                if ( e.getSource() == bLetra ) {
+                    if ( bLetra.isSelected() )
+                        addLPalabras(bLetra.getText());
+                    else 
+                        eliminarLetraLPalabra(bLetra.getText());
+                    break;
+                } 
+            }
+
+            if ( e.getSource() == bEliminarPalabra )
+                lPalabra.setText(" ");
+        }   
+
     }
 }
