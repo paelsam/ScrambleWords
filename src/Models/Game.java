@@ -79,6 +79,10 @@ public class Game {
         return listaRondas.get(ronda);
     }
 
+    public int getNumeroRonda() {
+        return ronda + 1;
+    }
+
     public Palabra cambiarRonda() {
         if ( ronda >= listaRondas.size() )
             ronda = 0;
@@ -86,6 +90,10 @@ public class Game {
         // Pasamos a una nueva ronda, se borran las palabras encontradas de la anterior ronda
         palabrasEncontradas.clear();
         return listaRondas.get(ronda);
+    }
+
+    public ArrayList<String> getPalabrasEncontradas(){
+        return palabrasEncontradas;
     }
 
     /**

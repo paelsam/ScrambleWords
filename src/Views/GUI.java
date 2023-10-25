@@ -45,6 +45,7 @@ public class GUI extends JFrame {
     JToggleButton[] bLetras;
 
     //Labels
+    ArrayList<JLabel> matrizLong3, matrizLong4, matrizLong5, matrizLong6;
     JLabel lTituloJuego;
     JLabel lRonda;
     JLabel lNumRonda;
@@ -58,6 +59,7 @@ public class GUI extends JFrame {
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setResizable(false);
     }
+
 
     // Generar Labels de las palabras
     // Los labels deben tener un tamaño de 25
@@ -105,10 +107,11 @@ public class GUI extends JFrame {
 
         // Instanciando labels
         lTituloJuego = new JLabel("SCRAMBLE WORDS");
-        lRonda = new JLabel("RONDA: ");
-        lNumRonda = new JLabel("");
         lPalabra = new JLabel(" ");
-                
+        matrizLong3 = new ArrayList<>(); matrizLong4 = new ArrayList<>();
+        matrizLong5 = new ArrayList<>(); matrizLong6 = new ArrayList<>();
+
+
         //! La fuente se encuentra en la carpeta de assets
         lTituloJuego.setFont(new Font("VCR OSD Mono", Font.PLAIN, 30));
         lPalabra.setFont(new Font("VCR OSD Mono", Font.PLAIN, 35));
@@ -225,8 +228,10 @@ public class GUI extends JFrame {
 
     public void eliminarLetraLPalabra(String letra) {
         int indice = lPalabra.getText().indexOf(letra);
-        String nuevaPalabra = lPalabra.getText().substring(0, indice) + lPalabra.getText().substring(indice + 1);
-        lPalabra.setText( nuevaPalabra );
+        if ( indice != -1 ) {
+            String nuevaPalabra = lPalabra.getText().substring(0, indice) + lPalabra.getText().substring(indice + 1);
+            lPalabra.setText( nuevaPalabra );
+        }
     }
 
     public void addLPalabras(String palabra) {
@@ -263,9 +268,12 @@ public class GUI extends JFrame {
                 } 
             }
 
-            if ( e.getSource() == bEliminarPalabra )
+            if ( e.getSource() == bEliminarPalabra ) {
+                for ( JToggleButton bLetra : bLetras ) 
+                    if ( bLetra.isSelected() )
+                        bLetra.setSelected(false);
                 lPalabra.setText(" ");
+            }
         }   
-
     }
 }

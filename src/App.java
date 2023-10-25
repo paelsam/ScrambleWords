@@ -4,7 +4,7 @@ public class App {
     public static void main(String[] args) throws Exception     
     {
         ControllerGame miJuego = new ControllerGame();
-        miJuego.inciarWindow();
+        miJuego.iniciarWindow();
         miJuego.iniciarRonda();
         miJuego.crearMatrizPalabrasPorLongitud();
 
