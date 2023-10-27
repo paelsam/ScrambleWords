@@ -103,7 +103,7 @@ public class Game {
      * @return true o false
      */
     public boolean verificarPalabra(String palabra) {
-        if (listaRondas.get(ronda).getPalabras().contains(palabra) && !palabrasEncontradas.contains(palabra) ) {
+        if (getRonda().getPalabraByLength(palabra.length()).contains(palabra) && !palabrasEncontradas.contains(palabra) ) {
             palabrasEncontradas.add(palabra);
             return true;
         }
