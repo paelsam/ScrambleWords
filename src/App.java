@@ -1,10 +1,9 @@
-import Models.Game;
-import Views.GUI;
+import Controllers.ControllerGame;
 
 public class App {
     public static void main(String[] args) throws Exception     
     {
-        GUI miGUI = new GUI();
-        miGUI.iniciarGUI();
+        ControllerGame miJuego = new ControllerGame();
+        miJuego.iniciarWindow();
     }
 }
