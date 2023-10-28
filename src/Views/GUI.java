@@ -17,6 +17,8 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.BorderLayout;
@@ -50,14 +52,14 @@ public class GUI extends JFrame {
     JLabel[][] matrizLong3, matrizLong4, matrizLong5, matrizLong6;
     JLabel lTituloJuego;
     JLabel lRonda;
-    JLabel lNumRonda;
     JLabel lPalabra;
+    JLabel lMensaje; 
 
     //Constructor
     public GUI() 
     {
         setTitle("Scramble Words");
-        setSize(940,600);
+        setSize(940,650);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setResizable(false);
     }
@@ -76,7 +78,7 @@ public class GUI extends JFrame {
         nuevoLabel.setHorizontalAlignment(SwingConstants.CENTER);
         nuevoLabel.setVerticalAlignment(SwingConstants.CENTER);
         nuevoLabel.setFont(new Font("VCR OSD Mono", Font.PLAIN, 25));
-        nuevoLabel.setBorder(BorderFactory.createLineBorder(colorFondo));
+        nuevoLabel.setBorder(BorderFactory.createLineBorder(colorFondo, 2));
         nuevoLabel.setPreferredSize(new Dimension(30, 30));
 
         return nuevoLabel;
@@ -88,11 +90,11 @@ public class GUI extends JFrame {
         //Instanciar Botones y añadiéndole íconos
         bIniciarJuego = new JButton(new ImageIcon(getClass().getResource("/images/start.png"))); 
         bIniciarJuego.setFocusable(false); bIniciarJuego.setBorder(BorderFactory.createLineBorder(colorTres));
-        bSiguienteJuego = new JButton(new ImageIcon(getClass().getResource("/images/next.png")));
+        bSiguienteJuego = new JButton(new ImageIcon(getClass().getResource("/images/next.png"))); bSiguienteJuego.setEnabled(false);
         bSiguienteJuego.setFocusable(false); bSiguienteJuego.setBorder(BorderFactory.createLineBorder(colorCuatro));
-        bEliminarPalabra = new JButton(new ImageIcon(getClass().getResource("/images/trash.png")));
+        bEliminarPalabra = new JButton(new ImageIcon(getClass().getResource("/images/trash.png"))); bEliminarPalabra.setEnabled(false);
         bEliminarPalabra.setFocusable(false); bEliminarPalabra.setBorder(BorderFactory.createLineBorder(colorCuatro));
-        bValidarPalabra = new JButton(new ImageIcon(getClass().getResource("/images/check.png")));
+        bValidarPalabra = new JButton(new ImageIcon(getClass().getResource("/images/check.png"))); bValidarPalabra.setEnabled(false);
         bValidarPalabra.setFocusable(false); bValidarPalabra.setBorder(BorderFactory.createLineBorder(colorCuatro));
 
         // Instanciando array de botones
@@ -110,16 +112,25 @@ public class GUI extends JFrame {
         // Instanciando labels
         lTituloJuego = new JLabel("SCRAMBLE WORDS");
         lPalabra = new JLabel(" ");
+        lRonda = new JLabel("RONDA: ");
+        lMensaje = new JLabel(" ");
 
 
         //! La fuente se encuentra en la carpeta de assets
-        lTituloJuego.setFont(new Font("VCR OSD Mono", Font.PLAIN, 30));
-        lPalabra.setFont(new Font("VCR OSD Mono", Font.PLAIN, 35));
+        lTituloJuego.setFont(new Font("VCR OSD Mono", Font.PLAIN, 35));
+        lPalabra.setFont(new Font("VCR OSD Mono", Font.PLAIN, 30));
+        lRonda.setFont(new Font("VCR OSD Mono", Font.PLAIN, 20));
+        lMensaje.setFont(new Font("VCR OSD Mono", Font.PLAIN, 20));
 
         lTituloJuego.setHorizontalAlignment(SwingConstants.CENTER);
         lTituloJuego.setVerticalAlignment(SwingConstants.CENTER);
         lPalabra.setHorizontalAlignment(SwingConstants.CENTER);
         lPalabra.setVerticalAlignment(SwingConstants.CENTER);
+        lRonda.setVerticalAlignment(SwingConstants.CENTER);
+        lRonda.setHorizontalAlignment(SwingConstants.CENTER);
+        lMensaje.setVerticalAlignment(SwingConstants.CENTER);
+        lMensaje.setHorizontalAlignment(SwingConstants.CENTER);
+
 
         // Añadiendo tamaño a los botones
         bIniciarJuego.setPreferredSize(new Dimension(60,60));
@@ -137,10 +148,12 @@ public class GUI extends JFrame {
         //Añadiendo el color de letra a los labels        
         lTituloJuego.setForeground(colorTres); 
         lPalabra.setForeground(colorSeis);
+        lRonda.setForeground(colorCuatro);
 
         // Definiendo páneles y añadiendo márgenes
         pNorte = new JPanel(new BorderLayout(10, 10));
         pNorte.setBorder(new EmptyBorder(10, 10, 10, 10));
+        pTitulo = new JPanel(new BorderLayout(10, 10));
 
         // Paneles que guardan la longitud de letras
         pPalabras = new JPanel(new FlowLayout(FlowLayout.LEFT, 20, 20));
@@ -173,16 +186,18 @@ public class GUI extends JFrame {
 
         //Color de fondo a los paneles
         pNorte.setBackground(colorFondo);
+        pTitulo.setBackground(colorFondo);
         pPalabras.setBackground(colorBorde);
         pLetras.setBackground(colorFondo);
         pSur.setBackground(colorFondo);
 
         //Añaniendo componentes en la parte superior
         pNorte.add(bIniciarJuego, BorderLayout.WEST);
-        pNorte.add(lTituloJuego, BorderLayout.CENTER);
-        // pNorte.add(lRonda);
-        // pNorte.add(lNumRonda);
+        pNorte.add(pTitulo, BorderLayout.CENTER);
         pNorte.add(bSiguienteJuego, BorderLayout.EAST);
+
+        pTitulo.add(lTituloJuego, BorderLayout.NORTH);
+        pTitulo.add(lRonda, BorderLayout.CENTER);
 
         // Añadiendo componentes en la parte central
         pPalabras.add(pLong3);
@@ -192,11 +207,14 @@ public class GUI extends JFrame {
 
         //Añaniendo componentes en la parte inferior
         pSur.add(lPalabra, BorderLayout.NORTH);
-        pSur.add(pLetras, BorderLayout.SOUTH);
+        pSur.add(pLetras, BorderLayout.CENTER);
+        pSur.add(lMensaje, BorderLayout.SOUTH);
 
         pLetras.add(bEliminarPalabra);
-        for ( JToggleButton toggleButton : bLetras)
+        for ( JToggleButton toggleButton : bLetras) {
+            toggleButton.setEnabled(false);
             pLetras.add(toggleButton);
+        }
         pLetras.add(bValidarPalabra);
 
         add(pNorte,BorderLayout.NORTH);
@@ -211,6 +229,8 @@ public class GUI extends JFrame {
 
         bValidarPalabra.addActionListener(event);
         bSiguienteJuego.addActionListener(event);
+        bIniciarJuego.addActionListener(event);
+        addKeyListener(event);
 
         pack();
         setVisible(true);
@@ -236,57 +256,65 @@ public class GUI extends JFrame {
     }
 
     public void addMatrizLong3( String[][] matriz ) {
+        pLong3.removeAll();
         // Instanciando la matriz de longitud 3 con el numero de palabras
         matrizLong3 = new JLabel[matriz.length][3];
         for ( int i = 0; i < matriz.length; i++ ) {
             for ( int j = 0; j < matriz[i].length; j++ ) {
-                matrizLong3[i][j] = crearLabel("", Color.BLACK);
+                matrizLong3[i][j] = crearLabel("", Color.GREEN);
                 // Se añade inmediatamente al panel de long 3
                 pLong3.add(matrizLong3[i][j]);
             }
         }
+        pLong3.updateUI();
     }
     
     public void addMatrizLong4( String[][] matriz ) {
        // Instanciando la matriz de longitud 4 con el numero de palabras
+        pLong4.removeAll();
         matrizLong4 = new JLabel[matriz.length][4];
         for ( int i = 0; i < matriz.length; i++ ) {
             for ( int j = 0; j < matriz[i].length; j++ ) {
-                matrizLong4[i][j] = crearLabel("", Color.BLACK);
+                matrizLong4[i][j] = crearLabel("", Color.GREEN);
                 // Se añade inmediatamente al panel de long 4
                 pLong4.add(matrizLong4[i][j]);
             }
         }
+        pLong4.updateUI();
     }
 
     public void addMatrizLong5( String[][] matriz ) {
-       // Instanciando la matriz de longitud 5 con el numero de palabras
+        pLong5.removeAll();
+        // Instanciando la matriz de longitud 5 con el numero de palabras
         matrizLong5 = new JLabel[matriz.length][5];
         for ( int i = 0; i < matriz.length; i++ ) {
             for ( int j = 0; j < matriz[i].length; j++ ) {
-                matrizLong5[i][j] = crearLabel("", Color.BLACK);
+                matrizLong5[i][j] = crearLabel("", Color.GREEN);
                 // Se añade inmediatamente al panel de long 5
                 pLong5.add(matrizLong5[i][j]);
             }
         }
+        pLong5.updateUI();
     }
 
     public void addMatrizLong6( String[][] matriz ) {
-       // Instanciando la matriz de longitud 6 con el numero de palabras
+        pLong6.removeAll();
+        // Instanciando la matriz de longitud 6 con el numero de palabras
         matrizLong6 = new JLabel[matriz.length][6];
         for ( int i = 0; i < matriz.length; i++ ) {
             for ( int j = 0; j < matriz[i].length; j++ ) {
-                matrizLong6[i][j] = crearLabel("", Color.BLACK);
+                matrizLong6[i][j] = crearLabel("", Color.GREEN);
                 // Se añade inmediatamente al panel de long 6
                 pLong6.add(matrizLong6[i][j]);
             }
         }
+        pLong6.updateUI();
     }
 
     public void showPalabra(String palabra, int position) {
         switch (palabra.trim().length()) {
             case 3:
-                for ( int i = 0; i < matrizLong3[position].length; i++ ) 
+                for ( int i = 0; i < matrizLong3[position].length; i++ )
                     matrizLong3[position][i].setText(Character.toString(palabra.charAt(i)).toUpperCase());
                 pLong3.updateUI();
                 break;
@@ -310,8 +338,17 @@ public class GUI extends JFrame {
         }
     }
 
+    public void addNumRonda(int ronda) {
+        lRonda.setText("RONDA: " + Integer.toString(ronda));
+    }
 
-    class ActionEventHandler implements ActionListener {
+    public void addLMensaje(String mensaje) {
+        lMensaje.setText(mensaje);
+        lMensaje.setForeground(colorSeis);
+    }
+
+
+    class ActionEventHandler implements ActionListener, KeyListener {
 
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -325,6 +362,15 @@ public class GUI extends JFrame {
                 } 
             }
 
+            if ( e.getSource() == bIniciarJuego ) {
+                ControllerGame.iniciarRonda();
+                bIniciarJuego.setEnabled(false);
+                bValidarPalabra.setEnabled(true);
+                bEliminarPalabra.setEnabled(true);
+                for ( JToggleButton bLetra : bLetras ) 
+                    bLetra.setEnabled(true);
+            }
+
             if ( e.getSource() == bEliminarPalabra ) {
                 for ( JToggleButton bLetra : bLetras ) 
                     if ( bLetra.isSelected() )
@@ -336,18 +382,43 @@ public class GUI extends JFrame {
             if (e.getSource() == bValidarPalabra) {
                 String palabraAVerficar = lPalabra.getText().trim().toLowerCase();
                 ControllerGame.verificarPalabra(palabraAVerficar);
+                for ( JToggleButton bLetra : bLetras ) 
+                    if ( bLetra.isSelected() )
+                        bLetra.setSelected(false);
+                lPalabra.setText(" ");
             }
             
 
             //Se presiona el boton para hacer el cambio de ronda y habilitar los botones de nuevo
             if (e.getSource() == bSiguienteJuego) {
                 ControllerGame.cambiarRonda();
+                ControllerGame.iniciarRonda();
                 bEliminarPalabra.setEnabled(true);
                 bValidarPalabra.setEnabled(true);
                 for (JToggleButton bLetra : bLetras) {
                     bLetra.setEnabled(true);
                 }
+                addLMensaje(" ");
             }
+        }
+
+        @Override
+        public void keyTyped(KeyEvent e) {}
+
+        @Override
+        public void keyPressed(KeyEvent e) {}
+
+        @Override
+        public void keyReleased(KeyEvent e) {
+            if ( (e.getKeyCode() == KeyEvent.VK_ENTER) && bValidarPalabra.isEnabled() ) {
+                String palabraAVerficar = lPalabra.getText().trim().toLowerCase();
+                ControllerGame.verificarPalabra(palabraAVerficar);
+                for ( JToggleButton bLetra : bLetras ) 
+                    if ( bLetra.isSelected() )
+                        bLetra.setSelected(false);
+                lPalabra.setText(" ");
+            }
+
         }   
     }
 }

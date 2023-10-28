@@ -1,7 +1,10 @@
 package Controllers;
 
+import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
 
 import Models.Game;
 import Views.GUI;
@@ -15,7 +18,6 @@ public class ControllerGame {
         game = new Game();
         gui.iniciarGUI();
         game.leerArchivo();
-        game.cambiarRonda(); cambiarRonda();
     }
 
     // Al inciar la ronda, añadimos las letras a sus respectivos labels y
@@ -24,10 +26,14 @@ public class ControllerGame {
     public static void iniciarRonda() {
         // Añadiendo las letras
         ArrayList<String> letrasRonda = game.getRonda().getLetras();
+        Collections.shuffle(letrasRonda);
         gui.addBLetras(letrasRonda);
+        gui.addNumRonda(game.getNumeroRonda());
+        crearMatrizPalabrasPorLongitud();
+    
     }
 
-    public void imprimirLabelsPorLongitud(int longitud, String[][] matriz) {
+    public static void crearMatrizLabelsPorLongitud(int longitud, String[][] matriz) {
         if (longitud == 3) 
             gui.addMatrizLong3(matriz);
         if (longitud == 4) 
@@ -38,7 +44,7 @@ public class ControllerGame {
             gui.addMatrizLong6(matriz);
     }
 
-    public void crearMatrizPalabrasPorLongitud() {
+    public static void crearMatrizPalabrasPorLongitud() {
         for (int i = 3; i <= 6; i++) {
             // La longitud del array de palabras dependiendo de la longitud
             int cantidadPalabras = game.getRonda().getPalabraByLength(i).size();
@@ -46,7 +52,7 @@ public class ControllerGame {
             // Matriz de la cantidad de palabras por la longitud de las letras
             String[][] matrizPalabras = new String[cantidadPalabras][i];
 
-            imprimirLabelsPorLongitud(i, matrizPalabras);
+            crearMatrizLabelsPorLongitud(i, matrizPalabras);
 
             // Se llena la matriz de Palabras con null
             Arrays.fill(matrizPalabras, null);
@@ -59,10 +65,12 @@ public class ControllerGame {
             int posicionPalabra =  game.getRonda().getPalabraByLength(palabra.length()).indexOf(palabra);
             // Imprime la palabra en la GUI
             gui.showPalabra(palabra, posicionPalabra);
-            System.out.println("La palabra es válida.");
+            gui.addLMensaje("CORRECTO :D");
         } else {
-            // Mensaje cuando el resultado es false
-            System.out.println("La palabra no es válida.");
+            if ( game.getPalabrasEncontradas().contains(palabra) )
+                gui.addLMensaje("YA ESCRIBISTE ESTA PALABRA >:(");
+            else
+                gui.addLMensaje("LA PALABRA NO ES VÁLIDA :'(");
         }
     }
 

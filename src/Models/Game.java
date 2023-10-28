@@ -84,9 +84,10 @@ public class Game {
     }
 
     public Palabra cambiarRonda() {
-        if ( ronda >= listaRondas.size() )
+        if ( ronda > listaRondas.size() )
             ronda = 0;
-        ronda++;
+        else 
+            ronda++;
         // Pasamos a una nueva ronda, se borran las palabras encontradas de la anterior ronda
         palabrasEncontradas.clear();
         return listaRondas.get(ronda);
