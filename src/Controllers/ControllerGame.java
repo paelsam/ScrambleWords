@@ -72,6 +72,18 @@ public class ControllerGame {
         }
     }
 
+    public static boolean condicionDeVictoria() {
+        //Si el tamano de los dos vectores es igual concluimos que el usuario ha superado la ronda
+        int tamanioPalabrasEncontradas = game.getPalabrasEncontradas().size();
+        int tamanioPalabrasPartida = game.getRonda().getPalabras().size();
+
+        if ( tamanioPalabrasEncontradas == tamanioPalabrasPartida ) {
+            gui.addLMensaje("HAZ GANADO ESTA RONDA, PUEDES PASAR A LA SIGUIENTE :D");
+            return true;
+        } else 
+            return false;
+    }
+
     public static void cambiarRonda() {
         game.cambiarRonda();
         iniciarRonda();

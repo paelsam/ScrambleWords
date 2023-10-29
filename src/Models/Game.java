@@ -84,7 +84,7 @@ public class Game {
     }
 
     public Palabra cambiarRonda() {
-        if ( ronda > listaRondas.size() )
+        if ( ronda >= listaRondas.size() - 1 )
             ronda = 0;
         else 
             ronda++;
