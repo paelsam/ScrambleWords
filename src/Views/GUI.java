@@ -25,6 +25,18 @@ import java.awt.BorderLayout;
 
 import java.util.ArrayList;
 
+/**
+ * Clase GUI: implementa la interfaz del juego.
+ * Esta clase está contenida en la clase ControllerGame
+ * 
+ * @author Elkin Samir Angulo Panameño
+ * @author Leonardo Cuadro Lopez
+ * @author Andres David Ortega 
+ * @author Juan Sebastian Tobar Moriones 
+ * 
+ * @version 1.0
+ */
+
 public class GUI extends JFrame {
 
     // Paleta de colores
@@ -65,8 +77,15 @@ public class GUI extends JFrame {
         setLocationRelativeTo(null);
     }
 
-    // Generar Labels de las palabras
-    // Los labels deben tener un tamaño de 25
+    /**
+     * Esta función crea un nuevo Label de la clase JLabel con sus atributos
+     * determinados para no repetir código a la hora de crear los 
+     * labels de la matriz de labels que contendrá la GUI
+     * 
+     * @param texto de tipo String, representa el texto que contendrá el label
+     * @param color de tipo Color, representa el color que tomará el background del label
+     * @return retorna el nuevo label creado de tipo JLabel
+     */
     public JLabel crearLabel(String texto, Color color) {
         // Instanciando label
         JLabel nuevoLabel = new JLabel(texto);
@@ -83,6 +102,13 @@ public class GUI extends JFrame {
         return nuevoLabel;
     }
 
+     /**
+     * Esta función instancia todos los objetos necesarios para que la gui funcione
+     * correctamente, aquí se crean los botones, paneles, labels. se adiciona los eventos, las escuchas 
+     * y se invocan los métodos heredados de la clase Frame necesarios para que se inicie la GUI
+     * 
+     * @return void
+     */
     public void iniciarGUI() {
         // Instanciar Botones y añadiéndole íconos
         bIniciarJuego = new JButton(new ImageIcon(getClass().getResource("/images/start.png")));
@@ -184,7 +210,6 @@ public class GUI extends JFrame {
 
         // (Paneles que contienen las palabras)
         pLetras = new JPanel(new FlowLayout());
-        // pLetras.setBorder(BorderFactory.createLineBorder(colorBorde, 2));
 
         pSur = new JPanel(new BorderLayout(10, 10));
         pSur.setBorder(new EmptyBorder(10, 10, 10, 10));
@@ -226,7 +251,7 @@ public class GUI extends JFrame {
         add(pPalabras, BorderLayout.CENTER);
         add(pSur, BorderLayout.SOUTH);
 
-        // Eventos
+        // Event Listener
         ActionEventHandler event = new ActionEventHandler();
         for (JToggleButton bLetra : bLetras)
             bLetra.addActionListener(event);
@@ -242,6 +267,13 @@ public class GUI extends JFrame {
         setVisible(true);
     }
 
+    /**
+     * Esta función modifica el texto de los JToggleButtons con las letras
+     * de la lista de letras que le ingresa como parametro.
+     * 
+     * @param letras lista de letras de tipo ArrayList que contiene las letras de la ronda actual
+     * @return void
+     */
     public void addBLetras(ArrayList<String> letras) {
         for (int i = 0; i < bLetras.length; i++) {
             String el = letras.get(i).toUpperCase();
@@ -249,6 +281,13 @@ public class GUI extends JFrame {
         }
     }
 
+    /**
+     * Esta función elimina una determinada letra en el label lPalabra. esta funcion
+     * es llamada en los métodos abstractos de ActionPerformed para eliminar una letra 
+     * que escribió el usuario cuando deseleccione un JToggleButton
+     * 
+     * @param letra de tipo String, representa la letra que se va a eliminar del lPalabra
+     */
     public void eliminarLetraLPalabra(String letra) {
         int indice = lPalabra.getText().indexOf(letra);
         if (indice != -1) {
@@ -257,10 +296,23 @@ public class GUI extends JFrame {
         }
     }
 
+    /**
+     * Esta funcion adiciona una letra a el label lPalabra.
+     * 
+     * @param letra de tipo string, representa la letra que el usuario a ingresado a travez de un JToggleButton.
+     */
     public void addLPalabras(String palabra) {
         lPalabra.setText(lPalabra.getText() + palabra);
     }
 
+    /**
+     * Esta funcion implementa la matriaLong3 con el numero de filas y columnas que
+     * coinciden con el numero de filas y columnas de la matriz que le entra como parametro, 
+     * luego llena la matrizLong3 con nuevos labels.
+     * 
+     * @param matriz de tipo Array en dos dimenciones, representa la matriz nula que contiene el numero
+     * de filas igual al numero de palabras de longitud 3, y el numero de columnas igual a 3
+    */
     public void addMatrizLong3(String[][] matriz) {
         pLong3.removeAll();
         // Instanciando la matriz de longitud 3 con el numero de palabras
@@ -275,6 +327,14 @@ public class GUI extends JFrame {
         pLong3.updateUI();
     }
 
+    /**
+     * Esta funcion implementa la matriaLong4 con el numero de filas y columnas que
+     * coinciden con el numero de filas y columnas de la matriz que le entra como parametro, 
+     * luego llena la matrizLong4 con nuevos labels.
+     * 
+     * @param matriz de tipo Array en dos dimenciones, representa la matriz nula que contiene el numero
+     * de filas igual al numero de palabras de longitud 4, y el numero de columnas igual a 4
+    */
     public void addMatrizLong4(String[][] matriz) {
         // Instanciando la matriz de longitud 4 con el numero de palabras
         pLong4.removeAll();
@@ -289,6 +349,14 @@ public class GUI extends JFrame {
         pLong4.updateUI();
     }
 
+     /**
+     * Esta funcion implementa la matriaLong5 con el numero de filas y columnas que
+     * coinciden con el numero de filas y columnas de la matriz que le entra como parametro, 
+     * luego llena la matrizLong5 con nuevos labels.
+     * 
+     * @param matriz de tipo Array en dos dimenciones, representa la matriz nula que contiene el numero
+     * de filas igual al numero de palabras de longitud 5, y el numero de columnas igual a 5
+    */
     public void addMatrizLong5(String[][] matriz) {
         pLong5.removeAll();
         // Instanciando la matriz de longitud 5 con el numero de palabras
@@ -303,6 +371,14 @@ public class GUI extends JFrame {
         pLong5.updateUI();
     }
 
+     /**
+     * Esta funcion implementa la matriaLong6 con el numero de filas y columnas que
+     * coinciden con el numero de filas y columnas de la matriz que le entra como parametro, 
+     * luego llena la matrizLong6 con nuevos labels.
+     * 
+     * @param matriz de tipo Array en dos dimenciones, representa la matriz nula que contiene el numero
+     * de filas igual al numero de palabras de longitud 6, y el numero de columnas igual a 6
+    */
     public void addMatrizLong6(String[][] matriz) {
         pLong6.removeAll();
         // Instanciando la matriz de longitud 6 con el numero de palabras
@@ -317,6 +393,17 @@ public class GUI extends JFrame {
         pLong6.updateUI();
     }
 
+    /**
+     * Esta función agrega las palabras validadas que ingresa el usuario a la matriz
+     * correspondiente en la gui de acuerdo a la longitud de la palabra.
+     * 
+     * @param palabra  de tipo string, representa la palabra validada que se va a
+     * ingresar en la matriz correspondiente en la GUI.
+     * 
+     * @param position de tipo string, representa la posición de la fila en la
+     * matriz correspondiente de la GUI de acuerdo a la longitud de la palabra 
+     * en la que se va a agregar la palabra.
+    */
     public void showPalabra(String palabra, int position) {
         switch (palabra.trim().length()) {
             case 3:
@@ -344,15 +431,31 @@ public class GUI extends JFrame {
         }
     }
 
+    /**
+     * Esta funcion modifica el label lRonda de acuerdo al numero de ronda actual
+     * 
+     * @param ronda entero que representa el numero de la ronda actual
+    */
     public void addNumRonda(int ronda) {
         lRonda.setText("RONDA: " + Integer.toString(ronda));
     }
 
+    /**
+     * Esta funcion modifica el label lMensaje de acuerdo al parametro mensaje que
+     * recive.
+     * 
+     * @param mensaje string que represena el mensaje que se mostrara en la GUI
+     * cuando el usuario no ingrese una palabra correcta o ingrese una repetida
+    */
     public void addLMensaje(String mensaje) {
         lMensaje.setText(mensaje);
         lMensaje.setForeground(colorSeis);
     }
 
+    /**
+     * Verfica que si la condición de victoria es verdadera, deshabilita
+     * los todos botones, excepto el boton bSiguienteJuego
+     */
     public void victoriaRonda() {
         // Verifica si ya se hallaron todas las palabras
         if (ControllerGame.condicionDeVictoria()) {
@@ -365,8 +468,18 @@ public class GUI extends JFrame {
         }
     }
 
+    /**
+     * En esta clase se implementan los metodos abstractos ActionListener y
+     * Keylistener para la gestion de eventos de los componentes de la GUI
+     */
     class ActionEventHandler implements ActionListener, KeyListener {
 
+        /**
+         * Esta funcion gestiona los eventos que se producen en los JToggleButtons y los
+         * demas botones de la GUI
+         * 
+         * @param ActionEvent e
+        */
         @Override
         public void actionPerformed(ActionEvent e) {
             for (JToggleButton bLetra : bLetras) {
@@ -411,8 +524,8 @@ public class GUI extends JFrame {
                 victoriaRonda();
             }
 
-            // Se presiona el boton para hacer el cambio de ronda y habilitar los botones de
-            // nuevo
+            // Se presiona el boton para hacer el cambio de ronda,
+            // habilitar los botones de nuevo y deshabilita nuevamente el botón
             if (e.getSource() == bSiguienteJuego) {
                 ControllerGame.cambiarRonda();
                 ControllerGame.iniciarRonda();
@@ -434,6 +547,11 @@ public class GUI extends JFrame {
         public void keyPressed(KeyEvent e) {
         }
 
+        /**
+         * Funcion que se ejecuta al soltar una tecla del teclado
+         * 
+         * @param KeyEvent e
+        */
         @Override
         public void keyReleased(KeyEvent e) {
             if ((e.getKeyCode() == KeyEvent.VK_ENTER) && bValidarPalabra.isEnabled()) {
