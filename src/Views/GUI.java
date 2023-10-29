@@ -59,9 +59,10 @@ public class GUI extends JFrame {
     public GUI() 
     {
         setTitle("Scramble Words");
-        setSize(940,650);
+        setSize(800,600);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setResizable(false);
+        setLocationRelativeTo(null);
     }
 
 
