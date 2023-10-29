@@ -41,10 +41,11 @@ public class Game {
      */
     public String leerArchivo() {
         BufferedReader br;
-        FileReader fr; File archivo;
-        String linea; String[] datos;
+        FileReader fr;
+        File archivo;
+        String linea;
+        String[] datos;
 
-        // Cambié la ruta en la que se guardaba el archivo txt 
         archivo = new File("src" + File.separator + "assets" + File.separator + "palabras.txt");
 
         try {
@@ -53,8 +54,8 @@ public class Game {
             while ((linea = br.readLine()) != null) {
                 Palabra nuevaPalabra = new Palabra();
                 datos = linea.split(",");
-                if (datos.length > 0) 
-                    for ( String dato : datos )
+                if (datos.length > 0)
+                    for (String dato : datos)
                         if (dato.length() <= 1)
                             nuevaPalabra.addLetra(dato);
                         else
@@ -67,47 +68,73 @@ public class Game {
             return "No se encontró ningun archivo";
         } catch (IOException e) {
             return "No se pudo leer la linea";
-        }   
+        }
         return "Se leyó la informacion del archivo";
     }
+
+    /**
+     * 
+     * @return lista de las rondas(palabras)
+     */
 
     public ArrayList<Palabra> getListaRondas() {
         return listaRondas;
     }
 
+    /**
+     * @return retorna una palabra de la listaRondas.
+     */
+
     public Palabra getRonda() {
         return listaRondas.get(ronda);
     }
 
+    /**
+     * @return el numero del indice de la palabra siguiente en la lista ronda
+     */
     public int getNumeroRonda() {
         return ronda + 1;
     }
 
+    /**
+     * funcion que aumenta el contador de la ronda y retorna la siguiente palabra de
+     * la ronda.
+     * 
+     * @return retorna la siguiente palabra de la ronda cuando el usuario a
+     *         completado todas las
+     *         palabras de la ronda
+     */
     public Palabra cambiarRonda() {
-        if ( ronda > listaRondas.size() )
+        if (ronda > listaRondas.size())
             ronda = 0;
-        else 
+        else
             ronda++;
-        // Pasamos a una nueva ronda, se borran las palabras encontradas de la anterior ronda
+        // Pasamos a una nueva ronda, se borran las palabras encontradas de la anterior
+        // ronda
         palabrasEncontradas.clear();
         return listaRondas.get(ronda);
     }
 
-    public ArrayList<String> getPalabrasEncontradas(){
+    /**
+     * @return la lista de palabras encontradas
+     */
+    public ArrayList<String> getPalabrasEncontradas() {
         return palabrasEncontradas;
     }
 
     /**
-     * Verifica si String pasado por parámetro está en la lista de palabras de 
-     * la ronda actual y en la lista de palabras encontradas. 
-     * @param palabra 
+     * Verifica si String pasado por parámetro está en la lista de palabras de
+     * la ronda actual y en la lista de palabras encontradas.
+     * 
+     * @param palabra
      * @return true o false
      */
     public boolean verificarPalabra(String palabra) {
-        if (getRonda().getPalabraByLength(palabra.length()).contains(palabra) && !palabrasEncontradas.contains(palabra) ) {
+        if (getRonda().getPalabraByLength(palabra.length()).contains(palabra)
+                && !palabrasEncontradas.contains(palabra)) {
             palabrasEncontradas.add(palabra);
             return true;
         }
-        return false; 
+        return false;
     }
 }
