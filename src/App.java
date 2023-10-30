@@ -1,7 +1,7 @@
 import Controllers.ControllerGame;
 
 /**
- * Clase app que ejecuta el el método main
+ * Clase app que ejecuta el método main
  * 
  * @author Elkin Samir Angulo Panameño
  * @author Leonardo Cuadro Lopez

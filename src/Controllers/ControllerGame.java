@@ -130,8 +130,12 @@ public class ControllerGame {
         int tamanioPalabrasEncontradas = game.getPalabrasEncontradas().size();
         int tamanioPalabrasPartida = game.getRonda().getPalabras().size();
 
+
         if (tamanioPalabrasEncontradas == tamanioPalabrasPartida) {
-            gui.addLMensaje("HAZ GANADO ESTA RONDA, PUEDES PASAR A LA SIGUIENTE :D");
+            if ( game.getNumeroRonda() == game.getListaRondas().size() )
+                gui.addLMensaje("JUEGO TERMINADO, ESPERAMOS QUE TE HAYA GUSTADO. PUEDES SEGUIR JUGANDO");
+            else
+                gui.addLMensaje("HAZ GANADO ESTA RONDA, PUEDES PASAR A LA SIGUIENTE :D");
             return true;
         } else
             return false;
